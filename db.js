@@ -77,7 +77,7 @@ function getPartPromise(partNo) {
         }
       }
     );
-    let result = [];
+    let result = {};
     let data = [];
     request.on("row", function(columns) {
       //      console.log("columns",columns);
@@ -86,14 +86,15 @@ function getPartPromise(partNo) {
           console.log("NULL");
         } else {
           console.log(column.metadata.colName);
-          result.push(column.value);
+          //   result.push({ [column.metadata.colName]: column.value });
+          result[[column.metadata.colName]] = column.value;
           // result += column.value + " ";
         }
       });
       data.push(result);
       console.log(result);
       //    return res.send({ result });
-      result = [];
+      result = {};
     });
 
     request.on("done", function(rowCount, more) {
