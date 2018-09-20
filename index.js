@@ -25,7 +25,7 @@ app.post("/validateparts", async (req, res) => {
   for (let i = 0; i < partNumbers.length; i++) {
     let resultData = await db.getPartPromise(partNumbers[i]);
     //console.log(resultData);
-    result.push({ resultData });
+    result.push(resultData);
   }
   res.send({ result });
 });
