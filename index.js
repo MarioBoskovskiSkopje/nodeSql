@@ -21,11 +21,13 @@ app.get("/validate", (req, res) => {
 
 app.post("/validateparts", async (req, res) => {
   const { partNumbers } = req.body;
-
+  let result = [];
   for (let i = 0; i < partNumbers.length; i++) {
-    let result = await db.getPartPromise(partNumbers[i]);
-    console.log(result);
+    let resultData = await db.getPartPromise(partNumbers[i]);
+    //console.log(resultData);
+    result.push(resultData);
   }
+  res.send({ result });
 });
 
 const port = process.env.PORT || 80;

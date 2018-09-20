@@ -63,6 +63,7 @@ function executeStatement(partNo, res) {
 
 function getPartPromise(partNo) {
   return new Promise((resolve, reject) => {
+    console.log("started promise");
     request = new Request(
       `SELECT inmast.fpartno, inmast.frev, inmast.fcstscode, inmast.fdescript, inmast.fsource, inmast.fstdcost, inmast.fprice
               FROM M2MDATA01.dbo.inmast inmast
@@ -72,6 +73,7 @@ function getPartPromise(partNo) {
       function(err) {
         if (err) {
           console.log(err);
+          return reject(err);
         }
       }
     );
@@ -99,7 +101,7 @@ function getPartPromise(partNo) {
     });
     request.on("requestCompleted", function(rowCount, more) {
       console.log("requestCompleted");
-      resolve(data);
+      return resolve(data);
       //res.send({ data });
     });
     connection.execSql(request);
