@@ -85,14 +85,14 @@ function getPartPromise(partNo) {
         if (column.value === null) {
           console.log("NULL");
         } else {
-          console.log(column.metadata.colName);
+          //console.log(column.metadata.colName);
           //   result.push({ [column.metadata.colName]: column.value });
           result[[column.metadata.colName]] = column.value;
           // result += column.value + " ";
         }
       });
       data.push(result);
-      console.log(result);
+      // console.log(result);
       //    return res.send({ result });
       result = {};
     });
