@@ -86,7 +86,7 @@ function getPartPromise(partNo) {
           console.log("NULL");
         } else {
           console.log(column.metadata.colName);
-          result.push({ [column.metadata.colName]: column.value });
+          result.push(column.value);
           // result += column.value + " ";
         }
       });
