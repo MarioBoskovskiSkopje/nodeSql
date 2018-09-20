@@ -21,7 +21,7 @@ app.get("/validate", (req, res) => {
 
 app.post("/validateparts", async (req, res) => {
   const partNumbers = req.body;
-
+  console.log(partNumbers);
   //let parsedPartNumbers = JSON.parse(partNumbers);
 
   let result = [];
