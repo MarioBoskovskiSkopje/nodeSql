@@ -16,7 +16,7 @@ connection.on("connect", function(err) {
     return;
   }
   console.log("Connected");
-  executeStatement();
+  // executeStatement();
 });
 
 function executeStatement(partNo, res) {

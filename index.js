@@ -6,6 +6,10 @@ const db = require("./db");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.get("/test", (req, res) => {
+  res.send({ result: 0 });
+});
+
 app.get("/validate", (req, res) => {
   const { partNo } = req.query;
   if (!partNo) {
