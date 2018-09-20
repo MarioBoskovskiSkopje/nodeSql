@@ -21,7 +21,7 @@ connection.on("connect", function(err) {
 
 function executeStatement(partNo, res) {
   request = new Request(
-    `SELECT inmast.fpartno, inmast.frev, inmast.fcstscode, inmast.fdescript, inmast.fsource, inmast.fstdcost, inma$
+    `SELECT inmast.fpartno, inmast.frev, inmast.fcstscode, inmast.fdescript, inmast.fsource, inmast.fstdcost, inmast.fprice
       FROM M2MDATA01.dbo.inmast inmast
       WHERE (inmast.fpartno LIKE '${partNo}' AND inmast.fcstscode LIKE 'a')
       ORDER BY inmast.fpartno
