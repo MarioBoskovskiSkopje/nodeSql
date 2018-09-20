@@ -21,33 +21,41 @@ connection.on("connect", function(err) {
 
 function executeStatement(partNo, res) {
   request = new Request(
-    `SELECT inmast.fpartno, inmast.frev, inmast.fcstscode, inmast.fdescript, inmast.fsource, inmast.fstdcost, inmast.fprice
-    FROM M2MDATA01.dbo.inmast inmast
-    WHERE (inmast.fpartno Like ${partNo} AND inmast.fcstscode LIKE 'a')
-    ORDER BY inmast.fpartno
-    `,
+    `SELECT inmast.fpartno, inmast.frev, inmast.fcstscode, inmast.fdescript, inmast.fsource, inmast.fstdcost, inma$
+      FROM M2MDATA01.dbo.inmast inmast
+      WHERE (inmast.fpartno LIKE '${partNo}' AND inmast.fcstscode LIKE 'a')
+      ORDER BY inmast.fpartno
+      `,
     function(err) {
       if (err) {
         console.log(err);
       }
     }
   );
-  let result = "";
+  let result = [];
+  let data = [];
   request.on("row", function(columns) {
+    //      console.log("columns",columns);
     columns.forEach(function(column) {
       if (column.value === null) {
         console.log("NULL");
       } else {
-        result += column.value + " ";
+        result.push(column.value);
+        // result += column.value + " ";
       }
     });
+    data.push(result);
     console.log(result);
-    return res.send({ result });
-    result = "";
+    //    return res.send({ result });
+    result = [];
   });
 
   request.on("done", function(rowCount, more) {
     console.log(rowCount + " rows returned");
+  });
+  request.on("requestCompleted", function(rowCount, more) {
+    console.log("requestCompleted");
+    res.send({ data });
   });
   connection.execSql(request);
 }

@@ -12,13 +12,13 @@ app.get("/test", (req, res) => {
 
 app.get("/validate", (req, res) => {
   const { partNo } = req.query;
-  if (!partNo) {
+  if (partNo) {
     return db.executeStatement(partNo, res);
   }
 
   //  res.send(req.query);
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 80;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
