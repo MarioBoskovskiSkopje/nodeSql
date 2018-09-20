@@ -101,7 +101,7 @@ function getPartPromise(partNo) {
     });
     request.on("requestCompleted", function(rowCount, more) {
       console.log("requestCompleted");
-      return resolve(data);
+      return resolve({ data });
       //res.send({ data });
     });
     connection.execSql(request);
