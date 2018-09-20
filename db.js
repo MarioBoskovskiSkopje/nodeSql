@@ -61,4 +61,49 @@ function executeStatement(partNo, res) {
   connection.execSql(request);
 }
 
-module.exports = { executeStatement };
+function getPartPromise(partNo) {
+  return new Promise((resolve, reject) => {
+    request = new Request(
+      `SELECT inmast.fpartno, inmast.frev, inmast.fcstscode, inmast.fdescript, inmast.fsource, inmast.fstdcost, inmast.fprice
+              FROM M2MDATA01.dbo.inmast inmast
+              WHERE (inmast.fpartno LIKE '${partNo}' AND inmast.fcstscode LIKE 'a')
+              ORDER BY inmast.fpartno
+              `,
+      function(err) {
+        if (err) {
+          console.log(err);
+        }
+      }
+    );
+    let result = [];
+    let data = [];
+    request.on("row", function(columns) {
+      //      console.log("columns",columns);
+      columns.forEach(function(column) {
+        if (column.value === null) {
+          console.log("NULL");
+        } else {
+          console.log(column.metadata.colName);
+          result.push({ [column.metadata.colName]: column.value });
+          // result += column.value + " ";
+        }
+      });
+      data.push(result);
+      console.log(result);
+      //    return res.send({ result });
+      result = [];
+    });
+
+    request.on("done", function(rowCount, more) {
+      console.log(rowCount + " rows returned");
+    });
+    request.on("requestCompleted", function(rowCount, more) {
+      console.log("requestCompleted");
+      resolve(data);
+      //res.send({ data });
+    });
+    connection.execSql(request);
+  });
+}
+
+module.exports = { executeStatement, getPartPromise };
