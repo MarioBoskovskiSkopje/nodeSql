@@ -21,8 +21,9 @@ app.get("/validate", (req, res) => {
 
 app.post("/validateparts", async (req, res) => {
   const { partNumbers } = req.body;
+  console.log(partNumbers);
   let parsedPartNumbers = JSON.parse(partNumbers);
-  console.log("PARSED NUMBERS", parsedPartNumbers);
+
   let result = [];
   for (let i = 0; i < parsedPartNumbers.length; i++) {
     let resultData = await db.getPartPromise(parsedPartNumbers[i]);
