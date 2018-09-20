@@ -40,6 +40,7 @@ function executeStatement(partNo, res) {
       if (column.value === null) {
         console.log("NULL");
       } else {
+        console.log(column);
         result.push(column.value);
         // result += column.value + " ";
       }
