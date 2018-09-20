@@ -21,11 +21,12 @@ app.get("/validate", (req, res) => {
 
 app.post("/validateparts", async (req, res) => {
   const { partNumbers } = req.body;
+  let parsedPartNumbers = JSON.parse(partNumbers);
   let result = [];
-  for (let i = 0; i < partNumbers.length; i++) {
-    let resultData = await db.getPartPromise(partNumbers[i]);
+  for (let i = 0; i < parsedPartNumbers.length; i++) {
+    let resultData = await db.getPartPromise(parsedPartNumbers[i]);
     //console.log(resultData);
-    result.push(JSON.parse(resultData));
+    result.push(resultData);
     // resultData.length === 1 && resultData.length > 0
     //   ? result.push(resultData[0])
     //   : result.push(resultData);
