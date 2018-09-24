@@ -99,7 +99,7 @@ function getPartPromise(partNo) {
     });
     request.on("requestCompleted", function(rowCount, more) {
       console.log("requestCompleted");
-      return resolve(data);
+      return resolve(data.length > 0 ? data[data.length - 1] : []);
     });
     connection.execSql(request);
   });
