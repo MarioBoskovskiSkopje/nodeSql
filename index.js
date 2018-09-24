@@ -20,7 +20,7 @@ app.get("/validate", (req, res) => {
 });
 
 app.post("/validateparts", async (req, res) => {
-  const idArr = ["6X", "FM", "DM", "AC", "SL"];
+  const idArr = ["6X", "FM", "DM", "AC"];
   const { partNumbers } = req.body;
   console.log(req.body);
   //let parsedPartNumbers = JSON.parse(partNumbers);
@@ -30,7 +30,7 @@ app.post("/validateparts", async (req, res) => {
   for (let j = 0; j < idArr.length; j++) {
     for (let i = 0; i < partNumbers.length; i++) {
       if (!truthTable[partNumbers[i]]) {
-        let prefillNumber = `${idArr[j]}${partNumbers[i]}`;
+        let prefillNumber = `SL-${idArr[j]}${partNumbers[i]}`;
         console.log("Num part", prefillNumber);
         let resultData = await db.getPartPromise(prefillNumber);
         console.log("REs", resultData);
