@@ -42,17 +42,6 @@ app.post("/validateparts", async (req, res) => {
         continue;
       }
     }
-    res.send({ result });
-  }
-
-  for (let i = 0; i < partNumbers.length; i++) {
-    let resultData = await db.getPartPromise(partNumbers[i]);
-    //console.log(resultData);
-    console.log(partNumbers[i]);
-    result.push(resultData);
-    // resultData.length === 1 && resultData.length > 0
-    //   ? result.push(resultData[0])
-    //   : result.push(resultData);
   }
   res.send({ result });
 });
@@ -68,9 +57,6 @@ app.post("/partinfo", async (req, res) => {
     //console.log(resultData);
     console.log(partNumbers[i]);
     result.push(resultData);
-    // resultData.length === 1 && resultData.length > 0
-    //   ? result.push(resultData[0])
-    //   : result.push(resultData);
   }
   res.send({ result });
 });
