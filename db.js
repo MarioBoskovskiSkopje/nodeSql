@@ -91,6 +91,7 @@ function getPartPromise(partNo) {
           // result += column.value + " ";
         }
       });
+      result["partNum"] = partNo;
       data.push(result);
       // console.log(result);
       //    return res.send({ result });
@@ -109,51 +110,51 @@ function getPartPromise(partNo) {
   });
 }
 
-function getPartInfo(partNum) {
-  return new Promise((resolve, reject) => {
-    console.log("started promise");
-    request = new Request(
-      `SELECT jomast.fsono, jomast.fjobno, jomast.fstatus, jomast.fpartno, joitem.fmqty, jodbom.fbompart, jodbom.ftotqty, inmast.flocate1, inmast.fmatlcost
-          FROM M2MDATA01.dbo.inmast inmast, M2MDATA01.dbo.jodbom jodbom, M2MDATA01.dbo.joitem joitem, M2MDATA01.dbo.jomast jomast
-          WHERE jodbom.fjobno = joitem.fjobno AND joitem.fjobno = jomast.fjobno AND inmast.fpartno = jodbom.fbompart AND ((jomast.fstatus='open') AND (jomast.fcompany Like '${partNum}') OR (jomast.fstatus='released') AND (jomast.fcompany Like '${partNum}') OR (jomast.fstatus='completed') AND (jomast.fcompany Like '${partNum}'))
-          ORDER BY jomast.fpartno`,
-      function(err) {
-        if (err) {
-          console.log(err);
-          return reject(err);
-        }
-      }
-    );
-    let result = {};
-    let data = [];
-    request.on("row", function(columns) {
-      //      console.log("columns",columns);
-      columns.forEach(function(column) {
-        if (column.value === null) {
-          console.log("NULL");
-        } else {
-          //console.log(column.metadata.colName);
-          //   result.push({ [column.metadata.colName]: column.value });
-          result[[column.metadata.colName]] = column.value;
-          // result += column.value + " ";
-        }
-      });
-      data.push(result);
-      // console.log(result);
-      //    return res.send({ result });
-      result = {};
-    });
+// function getPartInfo(partNum) {
+//   return new Promise((resolve, reject) => {
+//     console.log("started promise");
+//     request = new Request(
+//       `SELECT jomast.fsono, jomast.fjobno, jomast.fstatus, jomast.fpartno, joitem.fmqty, jodbom.fbompart, jodbom.ftotqty, inmast.flocate1, inmast.fmatlcost
+//           FROM M2MDATA01.dbo.inmast inmast, M2MDATA01.dbo.jodbom jodbom, M2MDATA01.dbo.joitem joitem, M2MDATA01.dbo.jomast jomast
+//           WHERE jodbom.fjobno = joitem.fjobno AND joitem.fjobno = jomast.fjobno AND inmast.fpartno = jodbom.fbompart AND ((jomast.fstatus='open') AND (jomast.fcompany Like '${partNum}') OR (jomast.fstatus='released') AND (jomast.fcompany Like '${partNum}') OR (jomast.fstatus='completed') AND (jomast.fcompany Like '${partNum}'))
+//           ORDER BY jomast.fpartno`,
+//       function(err) {
+//         if (err) {
+//           console.log(err);
+//           return reject(err);
+//         }
+//       }
+//     );
+//     let result = {};
+//     let data = [];
+//     request.on("row", function(columns) {
+//       //      console.log("columns",columns);
+//       columns.forEach(function(column) {
+//         if (column.value === null) {
+//           console.log("NULL");
+//         } else {
+//           //console.log(column.metadata.colName);
+//           //   result.push({ [column.metadata.colName]: column.value });
+//           result[[column.metadata.colName]] = column.value;
+//           // result += column.value + " ";
+//         }
+//       });
+//       data.push(result);
+//       // console.log(result);
+//       //    return res.send({ result });
+//       result = {};
+//     });
 
-    request.on("done", function(rowCount, more) {
-      console.log(rowCount + " rows returned");
-    });
-    request.on("requestCompleted", function(rowCount, more) {
-      console.log("requestCompleted");
-      return resolve(data);
-      //res.send({ data });
-    });
-    connection.execSql(request);
-  });
-}
+//     request.on("done", function(rowCount, more) {
+//       console.log(rowCount + " rows returned");
+//     });
+//     request.on("requestCompleted", function(rowCount, more) {
+//       console.log("requestCompleted");
+//       return resolve(data);
+//       //res.send({ data });
+//     });
+//     connection.execSql(request);
+//   });
+// }
 
-module.exports = { executeStatement, getPartPromise, getPartInfo };
+module.exports = { executeStatement, getPartPromise };
