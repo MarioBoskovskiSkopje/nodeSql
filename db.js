@@ -85,7 +85,8 @@ function getPartPromise(partNo) {
         if (column.value === null) {
           console.log("NULL");
         } else {
-          result[[column.metadata.colName]] = column.value.trim();
+          let value = column.value ? column.value.toString().trim() : "";
+          result[[column.metadata.colName]] = value;
         }
       });
       result["partNum"] = partNo;
