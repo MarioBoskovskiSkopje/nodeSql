@@ -37,6 +37,17 @@ app.post("/validateparts", async (req, res) => {
   res.send({ result });
 });
 
+app.post("/partinfo", async (req, res) => {
+  const idArr = ["6X", "FM", "DM", "AC", "SL"];
+  const { parts } = req.body;
+
+  let result = [];
+  for (let i = 0; i < parts.length; i++) {
+    let resultInfo = await db.getPartInfo(parts[i]);
+    console.log(resultInfo);
+  }
+});
+
 const port = process.env.PORT || 80;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
