@@ -85,16 +85,11 @@ function getPartPromise(partNo) {
         if (column.value === null) {
           console.log("NULL");
         } else {
-          //console.log(column.metadata.colName);
-          //   result.push({ [column.metadata.colName]: column.value });
-          result[[column.metadata.colName]] = column.value;
-          // result += column.value + " ";
+          result[[column.metadata.colName]] = column.value.trim();
         }
       });
       result["partNum"] = partNo;
       data.push(result);
-      // console.log(result);
-      //    return res.send({ result });
       result = {};
     });
 
@@ -104,7 +99,6 @@ function getPartPromise(partNo) {
     request.on("requestCompleted", function(rowCount, more) {
       console.log("requestCompleted");
       return resolve(data);
-      //res.send({ data });
     });
     connection.execSql(request);
   });
