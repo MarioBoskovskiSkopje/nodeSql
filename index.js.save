@@ -22,7 +22,7 @@ app.get("/validate", (req, res) => {
 app.post("/validateparts", async (req, res) => {
 const {typeCodes = ["6X"]}=req.body
 
-  const {idArr=[] }=req.body;
+  const {}
 if(typeCodes.length>2){
 for(let i = 0;i<typeCodes.length;i++){
 const element = typeCodes[i];
