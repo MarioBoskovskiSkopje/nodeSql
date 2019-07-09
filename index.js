@@ -41,7 +41,7 @@ return idArr.indexOf(item) == pos;
   for (let j = 0; j < filteredArray.length; j++) {
     for (let i = 0; i < partNumbers.length; i++) {
       if (!truthTable[partNumbers[i]]) {
-        let prefillNumber = `SL-${filteredArray[j]}${partNumbers[i]}`;
+        let prefillNumber = `${filteredArray[j]}${partNumbers[i]}`;
         console.log("Num part", prefillNumber);
         let resultData = await db.getPartPromise(prefillNumber);
         console.log("REs", resultData);

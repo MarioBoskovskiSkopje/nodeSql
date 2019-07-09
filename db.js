@@ -18,7 +18,9 @@ connection.on("connect", function(err) {
   console.log("Connected");
   // executeStatement();
 });
-
+connection.on("end", function(){
+connection= new Connection(config);
+});
 function executeStatement(partNo, res) {
   request = new Request(
     `SELECT inmast.fpartno,inmast.frev, inmast.fcstscode, inmast.fdescript, inmast.fsource, inmast.fstdcost, inmast.fprice,invcur.FLANYCUR,invcur.fcpartrev
@@ -87,7 +89,7 @@ function getPartPromise(partNo,res) {
       function(err) {
         if (err) {
              
-          console.log(err);
+          console.log('partPromiseErr',err);
           return {status:1,partNum:partNo};
         }
       }
