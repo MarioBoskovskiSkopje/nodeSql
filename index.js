@@ -79,6 +79,6 @@ app.post('/partinfo', async (req, res) => {
   res.send({ result, errors });
 });
 
-const port = process.env.PORT || 8080;
+const port = 8080;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
