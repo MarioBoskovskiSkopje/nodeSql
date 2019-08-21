@@ -3,7 +3,7 @@ const axios = require('axios');
 const config = {
   userName: 'SymPro',
   password: 'k3d6ATTO8Loa',
-  server: '69.63.100.74',
+  server: '69.63.100.74'
   // If you are on Microsoft Azure, you need this:
   //options: {encrypt: true, database: 'AdventureWorks'}
 };
@@ -15,7 +15,7 @@ connection.on('connect', function(err) {
     console.log({ err });
     axios.post(
       'https://script.google.com/a/shooshmonkey.com/macros/s/AKfycbzBXhtZv2yjGmI8J9cMuUYGXooTIAempGgLeno3qBAnUXdmQWY/exec',
-      { err },
+      { err }
     );
     return;
   }
@@ -37,7 +37,7 @@ function executeStatement(partNo, res) {
         console.log(err);
         return res.send({ status: 1, partNum: partNo });
       }
-    },
+    }
   );
   let result = [];
   let data = [];
@@ -93,7 +93,7 @@ function getPartPromise(partNo, res) {
           console.log('partPromiseErr', err);
           return { status: 1, partNum: partNo };
         }
-      },
+      }
     );
     let result = {};
     let data = [];
@@ -129,7 +129,49 @@ function getPartPromise(partNo, res) {
     }
   });
 }
+function getQuery(query) {
+  return new Promise((resolve, reject) => {
+    console.log('started promise');
+    request = new Request(query, function(err) {
+      if (err) {
+        console.log('partPromiseErr', err);
+        return { status: 1, err, query };
+      }
+    });
+    let result = {};
+    let data = [];
+    //console.log("before row");
+    request.on('row', function(columns) {
+      // console.log("columns",columns);
+      columns.forEach(function(column) {
+        if (column.value === null) {
+          console.log('NULL');
+        } else {
+          let value = column.value ? column.value.toString().trim() : '';
+          result[[column.metadata.colName]] = value;
+        }
+        //console.log("inside row");
+      });
 
+      data.push(result);
+      result = {};
+    });
+
+    request.on('done', function(rowCount, more) {
+      console.log(rowCount + ' rows returned');
+    });
+    request.on('requestCompleted', function(rowCount, more) {
+      console.log('requestCompleted', data);
+
+      return resolve(data);
+    });
+    try {
+      connection.execSql(request);
+    } catch (error) {
+      return [];
+    }
+  });
+}
 // function getPartInfo(partNum) {
 //   return new Promise((resolve, reject) => {
 //     console.log("started promise");
@@ -177,4 +219,4 @@ function getPartPromise(partNo, res) {
 //   });
 // }
 
-module.exports = { executeStatement, getPartPromise };
+module.exports = { executeStatement, getPartPromise, getQuery };

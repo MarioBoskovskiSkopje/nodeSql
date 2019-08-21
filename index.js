@@ -79,6 +79,14 @@ app.post('/partinfo', async (req, res) => {
   res.send({ result, errors });
 });
 
+app.post('/testrequest', async (req, res) => {
+  const { query } = req.body;
+
+  let result = await db.getQuery(query);
+
+  res.send({ result });
+});
+
 const port = 80;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
