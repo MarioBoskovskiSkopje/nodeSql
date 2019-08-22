@@ -7,17 +7,7 @@ const config = {
   // If you are on Microsoft Azure, you need this:
   //options: {encrypt: true, database: 'AdventureWorks'}
 };
-// const connection = null;
-// try {
-//   connection = new Connection(config);
-// } catch (err) {
-//   console.log('err', err);
-//   axios.post(
-//     'https://script.google.com/a/shooshmonkey.com/macros/s/AKfycbzBXhtZv2yjGmI8J9cMuUYGXooTIAempGgLeno3qBAnUXdmQWY/exec',
-//     { err }
-//   );
-//   return;
-// }
+
 const connection = new Connection(config);
 connection.on('connect', function(err) {
   // If no error, then good to proceed.
